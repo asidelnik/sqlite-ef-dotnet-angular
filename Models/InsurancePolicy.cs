@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace sqlink.Models;
 public class InsurancePolicy
 {
+  [Key]
   public int Id { get; set; }
   public required string PolicyNumber { get; set; }
   public double InsuranceAmount { get; set; }
