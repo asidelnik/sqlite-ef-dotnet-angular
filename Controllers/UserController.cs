@@ -8,7 +8,7 @@ using sqlink.Services.Repositories;
 namespace sqlink.Controllers;
 
 [ApiController]
-[Route("[user]")]
+[Route("api/user")]
 public class UserController : ControllerBase
 {
   private readonly IUserRepository _userRepository;

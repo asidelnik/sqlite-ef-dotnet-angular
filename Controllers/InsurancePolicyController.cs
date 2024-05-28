@@ -9,7 +9,7 @@ using sqlink.Services.Repositories;
 namespace sqlink.Controllers;
 
 [ApiController]
-[Route("[insurance-policy]")]
+[Route("api/insurance-policy")]
 public class InsurancePolicyController : ControllerBase
 {
   private readonly IInsurancePolicyRepository _insurancePolicyRepository;
