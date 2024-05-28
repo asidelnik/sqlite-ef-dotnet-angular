@@ -1,0 +1,53 @@
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 70px;
+  padding-inline-start: 20px;
+  background-color: hsl(0, 0%, 94%);
+
+  h3 {
+    margin: 0;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: calc(100vh - 70px);
+  background-color: white;
+  
+  nav {
+    height: 100%;
+    flex: 0 0 260px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 15px 0 15px;
+    background-color: hsl(0, 0%, 96%);
+
+    a {
+      padding: 15px 10px 15px 20px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 50px;
+
+      &:hover {
+        background-color: hsl(0, 0%, 92%);
+        cursor: pointer;
+      }
+      
+      &.active {
+        background-color: hsl(0, 0%, 92%);
+        cursor: pointer;
+      }
+    }
+  }
+
+  section {
+    height: 100%;
+    flex: 1 1 auto;
+  }
+}
