@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using sqlink.Data;
 using sqlink.Dtos;
+using sqlink.Models;
 using sqlink.Services.IRepositories;
 using sqlink.Services.Repositories;
 
@@ -12,19 +13,22 @@ namespace sqlink.Controllers;
 public class InsurancePolicyController : ControllerBase
 {
   private readonly IInsurancePolicyRepository _insurancePolicyRepository;
+  private readonly IUserRepository _userRepository;
 
   public InsurancePolicyController()
   {
     _insurancePolicyRepository = new InsurancePolicyRepository(new InsuranceDbContext());
+    _userRepository = new UserRepository(new InsuranceDbContext());
   }
 
-  public InsurancePolicyController(IInsurancePolicyRepository insurancePolicyRepository)
+  public InsurancePolicyController(IInsurancePolicyRepository insurancePolicyRepository, IUserRepository userRepository)
   {
     _insurancePolicyRepository = insurancePolicyRepository;
+    _userRepository = userRepository;
   }
 
   [HttpGet]
-  public async Task<IActionResult> GetInsurancePolicies()
+  public async Task<IActionResult> Get()
   {
     var insurancePolicies = await _insurancePolicyRepository.GetAsync();
     return Ok(insurancePolicies);
@@ -42,11 +46,22 @@ public class InsurancePolicyController : ControllerBase
   }
 
   [HttpPost]
-  public async Task<IActionResult> Add(InsurancePolicyDto insurancePolicy)
+  public async Task<IActionResult> Add(InsurancePolicyDto newItem)
   {
-    await _insurancePolicyRepository.AddAsync(insurancePolicy);
+    User user = await _userRepository.GetByIdAsync(newItem.UserId);
+    InsurancePolicy insurance = new()
+    {
+      PolicyNumber = newItem.PolicyNumber,
+      InsuranceAmount = newItem.InsuranceAmount,
+      StartDate = newItem.StartDate,
+      EndDate = newItem.EndDate,
+      UserId = newItem.UserId,
+      User = user
+    };
+
+    await _insurancePolicyRepository.AddAsync(insurance);
     _insurancePolicyRepository.Save();
-    return CreatedAtAction(nameof(Get), new { id = insurancePolicy.Id }, insurancePolicy);
+    return CreatedAtAction(nameof(GetById), new { id = newItem.Id }, newItem);
   }
 
   [HttpPut("{id}")]

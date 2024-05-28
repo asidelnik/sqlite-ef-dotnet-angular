@@ -8,7 +8,7 @@ using sqlink.Services.Repositories;
 namespace sqlink.Controllers;
 
 [ApiController]
-[Route("[users]")]
+[Route("[user]")]
 public class UserController : ControllerBase
 {
   private readonly IUserRepository _userRepository;
@@ -27,7 +27,7 @@ public class UserController : ControllerBase
   }
 
   [HttpGet]
-  public async Task<IActionResult> GetUsers()
+  public async Task<IActionResult> Get()
   {
     var users = await _userRepository.GetAsync();
     return Ok(users);
@@ -45,20 +45,29 @@ public class UserController : ControllerBase
   }
 
   [HttpPost]
-  public async Task<IActionResult> Add(UserDto user)
+  public async Task<IActionResult> Add(UserDto newUser)
   {
+    User user = new()
+    {
+      Name = newUser.Name,
+      Email = newUser.Email,
+    };
+
     await _userRepository.AddAsync(user);
     _userRepository.Save();
     return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
   }
 
   [HttpPut("{id}")]
-  public async Task<IActionResult> Update(int id, User user)
+  public async Task<IActionResult> Update(int id, UserDto updateUser)
   {
-    if (id != user.Id)
+    User user = await _userRepository.GetByIdAsync(id);
+    if (user == null)
     {
-      return BadRequest();
+      return NotFound();
     }
+    user.Name = updateUser.Name;
+    user.Email = updateUser.Email;
     await _userRepository.UpdateAsync(user);
     _userRepository.Save();
     return NoContent();

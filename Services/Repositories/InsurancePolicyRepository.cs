@@ -15,7 +15,7 @@ public class InsurancePolicyRepository : IInsurancePolicyRepository
 
   public async Task<IEnumerable<InsurancePolicy>> GetAsync() => await _context.InsurancePolicies.ToListAsync();
 
-  public async Task<InsurancePolicy> GetById(int id)
+  public async Task<InsurancePolicy> GetByIdAsync(int id)
   {
     var insurancePolicy = await _context.InsurancePolicies.FindAsync(id);
     if (insurancePolicy != null)
@@ -28,18 +28,18 @@ public class InsurancePolicyRepository : IInsurancePolicyRepository
     }
   }
 
-  public async Task<bool> Add(InsurancePolicy entity)
+  public async Task<bool> AddAsync(InsurancePolicy entity)
   {
     await _context.InsurancePolicies.AddAsync(entity);
     return await _context.SaveChangesAsync() > 0;
   }
-  public async Task<bool> Update(InsurancePolicy entity)
+  public async Task<bool> UpdateAsync(InsurancePolicy entity)
   {
     _context.InsurancePolicies.Update(entity);
     return await _context.SaveChangesAsync() > 0;
   }
 
-  public async Task<bool> Delete(int id)
+  public async Task<bool> DeleteAsync(int id)
   {
     var entity = await _context.InsurancePolicies.FindAsync(id);
     _context.InsurancePolicies.Remove(entity);
