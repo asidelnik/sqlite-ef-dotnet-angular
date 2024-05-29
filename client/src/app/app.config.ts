@@ -9,7 +9,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     // Check
-    // importProvidersFrom(HttpClientModule),
+    importProvidersFrom(HttpClientModule),
     // CommonModule,
   ],
 };
