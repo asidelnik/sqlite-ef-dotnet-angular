@@ -1,10 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using sqlink.Data;
+using sqlink.Services.IRepositories;
+using sqlink.Services.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddDbContext<InsuranceDbContext>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IInsurancePolicyRepository, InsurancePolicyRepository>();
 
 var app = builder.Build();
 
@@ -16,4 +23,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(x => x
+  .AllowAnyMethod()
+  .AllowAnyHeader()
+  .AllowCredentials()
+  //.WithOrigins("https://localhost:5195))
+  .SetIsOriginAllowed(origin => true)
+);
+
+app.MapControllers();
 app.Run();

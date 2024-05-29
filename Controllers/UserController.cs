@@ -1,24 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
-using sqlink.Data;
 using sqlink.Dtos;
 using sqlink.Models;
 using sqlink.Services.IRepositories;
-using sqlink.Services.Repositories;
 
 namespace sqlink.Controllers;
 
-[ApiController]
 [Route("api/user")]
+[ApiController]
 public class UserController : ControllerBase
 {
   private readonly IUserRepository _userRepository;
   private readonly IInsurancePolicyRepository _insurancePolicyRepository;
-
-  public UserController()
-  {
-    _userRepository = new UserRepository(new InsuranceDbContext());
-    _insurancePolicyRepository = new InsurancePolicyRepository(new InsuranceDbContext());
-  }
 
   public UserController(IUserRepository userRepository, IInsurancePolicyRepository insurancePolicyRepository)
   {

@@ -1,25 +1,17 @@
 
 using Microsoft.AspNetCore.Mvc;
-using sqlink.Data;
 using sqlink.Dtos;
 using sqlink.Models;
 using sqlink.Services.IRepositories;
-using sqlink.Services.Repositories;
 
 namespace sqlink.Controllers;
 
-[ApiController]
 [Route("api/insurance-policy")]
+[ApiController]
 public class InsurancePolicyController : ControllerBase
 {
   private readonly IInsurancePolicyRepository _insurancePolicyRepository;
   private readonly IUserRepository _userRepository;
-
-  public InsurancePolicyController()
-  {
-    _insurancePolicyRepository = new InsurancePolicyRepository(new InsuranceDbContext());
-    _userRepository = new UserRepository(new InsuranceDbContext());
-  }
 
   public InsurancePolicyController(IInsurancePolicyRepository insurancePolicyRepository, IUserRepository userRepository)
   {
