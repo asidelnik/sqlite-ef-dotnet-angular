@@ -3,11 +3,12 @@ import { IUser } from '../../interfaces/IUser';
 import { Subscription } from 'rxjs';
 import { APIService } from '../../services/api-service/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss',
 })
@@ -24,7 +25,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     const notNumber = numberId === null || isNaN(numberId);
     if (notNumber) return;
     this.userId = numberId;
-    
+
     this.userDetailsSubscription = this.apiService
       .fetchUserById(numberId)
       .subscribe((user: IUser) => {
